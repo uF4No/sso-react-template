@@ -1,22 +1,24 @@
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
+import { zkSyncTestnet } from '@wagmi/chains'
+import { injected } from 'wagmi/connectors'
+import {zksyncSsoConnector, callPolicy} from "zksync-sso/connector"
+
+const ssoConnector = zksyncSsoConnector({
+  metadata: {
+    name: "SSO React Template App",
+    icon: "https://nft.zksync.dev/favicon.svg",
+  },
+})
 
 export function getConfig() {
   return createConfig({
-    chains: [mainnet, sepolia],
+    chains: [zkSyncTestnet],
     connectors: [
       injected(),
-      coinbaseWallet(),
-      walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID }),
+      ssoConnector,
     ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
     transports: {
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
+      [zkSyncTestnet.id]: http(),
     },
   })
 }
