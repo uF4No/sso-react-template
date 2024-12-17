@@ -23,8 +23,8 @@ export default function Home() {
           <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {[
               { title: 'Easy Setup', icon: '🚀' },
-              { title: 'Secure', icon: '🔒' },
-              { title: 'Multi-Chain', icon: '⛓️' },
+              { title: 'Secured by Passkeys', icon: '🔒' },
+              { title: 'Powered by ZKsync', icon: '⛓️' },
             ].map((feature) => (
               <div key={feature.title} 
                    className="p-6 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm 

@@ -7,6 +7,7 @@ import { cookieToInitialState } from 'wagmi'
 import { getConfig } from '../wagmi'
 import { Providers } from './providers'
 import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,12 +24,13 @@ export default function RootLayout(props: { children: ReactNode }) {
   
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Providers initialState={initialState}>
           <Navbar />
-          <main className="pt-16">
+          <main className="pt-16 flex-grow">
             {props.children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>

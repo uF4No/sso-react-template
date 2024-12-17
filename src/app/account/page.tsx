@@ -1,18 +1,48 @@
 'use client'
 
-import { useAccount, useBalance, useEnsName } from 'wagmi'
+import { useAccount, useBalance } from 'wagmi'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { isAddress, getAddress } from 'viem'
+import { getCode, isAddress } from 'viem'
+import { zkSyncTestnet } from '@wagmi/chains'
+import { createPublicClient, http } from 'viem'
 
 export default function Account() {
   const account = useAccount()
   const router = useRouter()
   const [copied, setCopied] = useState(false)
+  const [isSmartContract, setIsSmartContract] = useState<boolean | null>(null)
   const address = account.addresses?.[0]
-  
+
+  // Create a public client for zkSync testnet
+  const publicClient = createPublicClient({
+    chain: zkSyncTestnet,
+    transport: http()
+  })
+
+  useEffect(() => {
+    async function checkIsSmartContract() {
+      if (!address) return
+      
+      try {
+        const code = await publicClient.getCode({
+          address: address as `0x${string}`
+        })
+        // If code length > 2 ('0x'), it's a smart contract
+        setIsSmartContract(code.length > 2)
+      } catch (error) {
+        console.error('Error checking contract code:', error)
+        setIsSmartContract(false)
+      }
+    }
+
+    checkIsSmartContract()
+  }, [address, publicClient])
+
   const { data: balance } = useBalance({
     address: address as `0x${string}`,
+    chainId: zkSyncTestnet.id,
+    watch: true
   })
 
   useEffect(() => {
@@ -30,11 +60,8 @@ export default function Account() {
   }
 
   const getExplorerLink = (address: string) => {
-    return `https://explorer.zksync.io/address/${address}`
+    return `${process.env.NEXT_PUBLIC_EXPLORER_URL}${address}`
   }
-
-  const isSmartContract = account.addresses?.[0] ? 
-    account.addresses[0].length > 42 : false // Simple check, can be enhanced
 
   if (!address) return null
 
@@ -48,13 +75,19 @@ export default function Account() {
           <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Account Type</h3>
             <div className="flex items-center space-x-2">
-              <span className={`px-3 py-1 rounded-full text-sm ${
-                isSmartContract 
-                  ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                  : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-              }`}>
-                {isSmartContract ? 'Smart Contract Account' : 'EOA'}
-              </span>
+              {isSmartContract === null ? (
+                <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
+                  Checking...
+                </span>
+              ) : (
+                <span className={`px-3 py-1 rounded-full text-sm ${
+                  isSmartContract 
+                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                    : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                }`}>
+                  {isSmartContract ? 'Smart Contract Account' : 'EOA'}
+                </span>
+              )}
               <a
                 href={getExplorerLink(address)}
                 target="_blank"
