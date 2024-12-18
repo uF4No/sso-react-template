@@ -1,20 +1,36 @@
 'use client'
+import Image from 'next/image'
+import { useTheme } from 'next-themes'
 
 export default function Home() {
+  const { resolvedTheme } = useTheme()
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <div className="text-center space-y-8 px-4 max-w-4xl">
+        {/* Logo */}
+        <div className="w-full max-w-md mx-auto mb-8">
+          <Image
+            src={resolvedTheme === 'dark' ? '/zksync-sso-light.png': '/zksync-sso-dark.png'}
+            alt="ZKSync SSO Logo"
+            width={400}
+            height={100}
+            priority
+            className="w-full h-auto"
+          />
+        </div>
+
         {/* Main Title with gradient text */}
         <h1 className="text-6xl md:text-7xl font-extrabold">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient">
-            SSO React Template
+            React Template
           </span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300">
-          Connect your wallet and start building Web3 apps with amazing UX
+          start building Web3 apps with amazing UX
         </p>
 
         {/* Decorative elements */}

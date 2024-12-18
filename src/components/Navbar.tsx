@@ -1,26 +1,19 @@
 'use client'
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { useState, useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Sun, Moon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, setTheme } = useTheme()
   const { connectors, connect } = useConnect()
   const { status, addresses } = useAccount()
   const { disconnect } = useDisconnect()
   const router = useRouter()
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDarkMode])
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-3)}`
@@ -40,10 +33,10 @@ export function Navbar() {
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="p-1.5 sm:p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
-              {isDarkMode ? (
+              {theme === 'dark' ? (
                 <Sun 
                   size={18} 
                   className="text-amber-300 hover:text-amber-400 transition-colors" 
