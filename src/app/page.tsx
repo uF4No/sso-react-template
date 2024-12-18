@@ -14,7 +14,7 @@ export default function Home() {
 
         {/* Subtitle */}
         <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300">
-          Connect your wallet and start building with Web3
+          Connect your wallet and start building Web3 apps with amazing UX
         </p>
 
         {/* Decorative elements */}
@@ -41,6 +41,27 @@ export default function Home() {
             ))}
           </div>
         </div>
+        {/* Documentation links */}
+        <p className="text-gray-600 dark:text-gray-300 mt-8">
+          Learn more in the{' '}
+          <a
+            href="https://docs.zksync.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline decoration-dotted transition-colors"
+          >
+            ZKsync docs
+          </a>
+          {' '}and{' '}
+          <a
+            href="https://docs.zksync.io/zksync-era/unique-features/zksync-sso"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline decoration-dotted transition-colors"
+          >
+            SSO documentation
+          </a>
+        </p>
       </div>
 
       {/* Background decoration */}

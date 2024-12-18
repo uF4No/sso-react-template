@@ -24,10 +24,10 @@ export default function RootLayout(props: { children: ReactNode }) {
   
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <Providers initialState={initialState}>
           <Navbar />
-          <main className="pt-16 flex-grow">
+          <main className="flex-1">
             {props.children}
           </main>
           <Footer />
