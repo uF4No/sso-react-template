@@ -20,9 +20,10 @@ See the [demo](https://zksync-sso-react.netlify.app/)
 
 ## Features
 
-- [x] Authentication with `zksync-sso`
-- [x] Dark/light theme selection with `next-themes`
-- [x] Responsive design
+- Authentication with `zksync-sso`
+- Dark/light theme selection with `next-themes`
+- Responsive design
+- Account page with balance and account type (EOA/Smart)
 
 ## TODO
 
