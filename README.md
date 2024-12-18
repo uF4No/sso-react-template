@@ -10,11 +10,19 @@
 
 > This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-wagmi`](https://github.com/wevm/wagmi/tree/main/packages/create-wagmi).
 
+See the [demo](https://zksync-sso-react.netlify.app/)
+
 ## Getting Started
 
 1. Clone the repository
 2. Run `bun install`
 3. Run `bun run dev`
+
+## Features
+
+- [x] Authentication with `zksync-sso`
+- [x] Dark/light theme selection with `next-themes`
+- [x] Responsive design
 
 ## TODO
 
@@ -25,8 +33,8 @@
 
 ## Notes
 
-- This template is using `zksync-sso` for the authentication and wallet connection.
+- This template is using `React` and `Next.js`.
 - This template is using `wagmi` and `viem` for the blockchain interaction.
-- This template is using ZKsync Testnet for the blockchain. 
+- This template is using `zksync-sso` for the authentication and wallet connection.
+- This template is using ZKsync Testnet as the default chain but can be changed to any other chain supported by `viem`.
 - This template is using `tailwindcss` for the styling.
-- This template is using `next.js` for the routing.
