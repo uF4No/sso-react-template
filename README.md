@@ -3,9 +3,9 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ec0140b-9894-4d39-a688-ff572042ac45/deploy-status)](https://app.netlify.com/sites/zksync-sso-react/deploys)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="public/zksync-sso-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="public/zksync-sso-light.png">
-  <img alt="ZKsync SSO Logo" src="public/zksync-sso-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="public/zksync-sso-light.png">
+  <source media="(prefers-color-scheme: light)" srcset="public/zksync-sso-dark.png">
+  <img alt="ZKsync SSO Logo" src="public/zksync-sso-dark.png">
 </picture>
 
 > This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-wagmi`](https://github.com/wevm/wagmi/tree/main/packages/create-wagmi).
