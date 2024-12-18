@@ -4,6 +4,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { Sun, Moon } from 'lucide-react'
 
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -22,7 +23,7 @@ export function Navbar() {
   }, [isDarkMode])
 
   const formatAddress = (address: string) => {
-    return `${address.slice(0, 4)}...${address.slice(-4)}`
+    return `${address.slice(0, 4)}...${address.slice(-3)}`
   }
 
   return (
@@ -40,9 +41,19 @@ export function Navbar() {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700"
+              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
-              {isDarkMode ? '🌞' : '🌙'}
+              {isDarkMode ? (
+                <Sun 
+                  size={20} 
+                  className="text-amber-300 hover:text-amber-400 transition-colors" 
+                />
+              ) : (
+                <Moon 
+                  size={20} 
+                  className="text-gray-600 hover:text-gray-800 transition-colors" 
+                />
+              )}
             </button>
 
             <div className="relative">

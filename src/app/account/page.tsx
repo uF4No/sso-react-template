@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { getPublicClient } from '@wagmi/core'
 import { getConfig } from '../../wagmi'
 import { zksyncSepoliaTestnet } from 'viem/chains'
+import { Copy, Check } from 'lucide-react'
 
 export default function Account() {
   const account = useAccount()
@@ -120,9 +121,9 @@ export default function Account() {
               </code>
               <button
                 onClick={copyToClipboard}
-                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors text-gray-600 dark:text-gray-300"
               >
-                {copied ? '✓' : '📋'}
+                {copied ? <Check size={20} /> : <Copy size={20} />}
               </button>
             </div>
           </div>
