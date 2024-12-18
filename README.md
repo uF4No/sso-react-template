@@ -10,8 +10,8 @@
 
 ## TODO
 
-- [ ] Replace emojis with icons 
-- [ ] Fix for mobile screens
+- [x] Fix for mobile screens sizes
+- [x] Replace emojis with icons 
 - [x] Fix balance in account page
 - [x] Improve navbar design
 

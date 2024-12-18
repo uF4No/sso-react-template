@@ -1,6 +1,6 @@
 'use client'
 
-import { useAccount, useBalance, useChainId } from 'wagmi'
+import { useAccount, useBalance, useChainId, useDisconnect } from 'wagmi'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getPublicClient } from '@wagmi/core'
@@ -15,6 +15,7 @@ export default function Account() {
   const [isSmartContract, setIsSmartContract] = useState<boolean | null>(null)
   const address = account.addresses?.[0]
   const chainId = useChainId()
+  const { disconnect } = useDisconnect()
 
   // Create a public client
   const publicClient = getPublicClient(getConfig())
@@ -28,8 +29,8 @@ export default function Account() {
         const code = await publicClient.getCode({
           address: address as `0x${string}`
         })
-        // If code length > 2 ('0x'), it's a smart contract
-        setIsSmartContract(code.length > 2)
+        // Ensure we always return a boolean value
+        setIsSmartContract(Boolean(code && code.length > 2))
       } catch (error) {
         console.error('Error checking contract code:', error)
         setIsSmartContract(false)
@@ -63,18 +64,28 @@ export default function Account() {
     return `${process.env.NEXT_PUBLIC_EXPLORER_URL}${address}`
   }
 
+  const handleDisconnect = () => {
+    disconnect()
+    router.push('/')
+  }
+
   if (!address) return null
 
   return (
-    <div className="min-h-screen p-8 bg-white dark:bg-gray-900">
-      <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Account Details</h2>
+    <div className="min-h-screen p-4 sm:p-8 bg-white dark:bg-gray-900">
+      {/* Title */}
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+        Account Details
+      </h1>
+
+      <div className="max-w-2xl mx-auto bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-4 sm:p-6">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-white">Wallet Information</h2>
         
-        <div className="space-y-6 text-gray-600 dark:text-gray-300">
+        <div className="space-y-4 sm:space-y-6 text-gray-600 dark:text-gray-300">
           {/* Network */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-2">Network</h3>
-            <div className="flex items-center space-x-2">
+          <div className="bg-gray-50 dark:bg-gray-700 p-3 sm:p-4 rounded-lg">
+            <h3 className="text-base sm:text-lg font-semibold mb-2">Network</h3>
+            <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 {chainId === zksyncSepoliaTestnet.id ? 'zkSync Sepolia' : 'Unknown Network'}
               </span>
@@ -85,9 +96,9 @@ export default function Account() {
           </div>
 
           {/* Account Type */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-2">Account Type</h3>
-            <div className="flex items-center space-x-2">
+          <div className="bg-gray-50 dark:bg-gray-700 p-3 sm:p-4 rounded-lg">
+            <h3 className="text-base sm:text-lg font-semibold mb-2">Account Type</h3>
+            <div className="flex flex-wrap items-center gap-2">
               {isSmartContract === null ? (
                 <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
                   Checking...
@@ -113,29 +124,41 @@ export default function Account() {
           </div>
 
           {/* Address */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-2">Address</h3>
-            <div className="flex items-center space-x-2">
-              <code className="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">
+          <div className="bg-gray-50 dark:bg-gray-700 p-3 sm:p-4 rounded-lg">
+            <h3 className="text-base sm:text-lg font-semibold mb-2">Address</h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <code className="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded break-all text-sm">
                 {address}
               </code>
               <button
                 onClick={copyToClipboard}
-                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors text-gray-600 dark:text-gray-300"
+                className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors text-gray-600 dark:text-gray-300"
               >
-                {copied ? <Check size={20} /> : <Copy size={20} />}
+                {copied ? <Check size={18} /> : <Copy size={18} />}
               </button>
             </div>
           </div>
 
           {/* Balance */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-2">Balance</h3>
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl font-mono">
+          <div className="bg-gray-50 dark:bg-gray-700 p-3 sm:p-4 rounded-lg">
+            <h3 className="text-base sm:text-lg font-semibold mb-2">Balance</h3>
+            <div className="flex items-center gap-2">
+              <span className="text-xl sm:text-2xl font-mono">
                 {balance ? `${Number(balance.formatted).toFixed(4)} ${balance.symbol}` : 'Loading...'}
               </span>
             </div>
+          </div>
+
+          {/* Disconnect Button */}
+          <div className="pt-4 sm:pt-6">
+            <button
+              onClick={handleDisconnect}
+              className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 
+                       text-white rounded-lg transition-colors duration-200 
+                       flex items-center justify-center space-x-2 font-medium"
+            >
+              Disconnect
+            </button>
           </div>
         </div>
       </div>

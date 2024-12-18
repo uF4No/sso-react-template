@@ -30,27 +30,27 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 truncate">
             <Link 
               href="/" 
-              className="text-xl font-bold text-gray-800 dark:text-white hover:opacity-80 transition-opacity"
+              className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white hover:opacity-80 transition-opacity"
             >
               SSO React Template
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="p-1.5 sm:p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               {isDarkMode ? (
                 <Sun 
-                  size={20} 
+                  size={18} 
                   className="text-amber-300 hover:text-amber-400 transition-colors" 
                 />
               ) : (
                 <Moon 
-                  size={20} 
+                  size={18} 
                   className="text-gray-600 hover:text-gray-800 transition-colors" 
                 />
               )}
@@ -61,7 +61,7 @@ export function Navbar() {
                 <>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
                   >
                     <span>{formatAddress(addresses[0])}</span>
                     <span className="text-xs">▼</span>
@@ -93,9 +93,9 @@ export function Navbar() {
                 <>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors text-sm sm:text-base"
                   >
-                    Connect Wallet
+                    Connect
                   </button>
                   
                   {isDropdownOpen && (
