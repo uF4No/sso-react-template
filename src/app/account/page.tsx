@@ -42,8 +42,6 @@ export default function Account() {
 
   const { data: balance } = useBalance({
     address: address as `0x${string}`,
-    // chainId: zkSyncTestnet.id,
-    watch: true
   })
 
   useEffect(() => {
