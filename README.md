@@ -10,10 +10,10 @@
 
 ## TODO
 
-- [ ] Fix balance in account page
 - [ ] Replace emojis with icons 
-- [ ] Improve navbar design
 - [ ] Fix for mobile screens
+- [x] Fix balance in account page
+- [x] Improve navbar design
 
 ## Notes
 

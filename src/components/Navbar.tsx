@@ -9,10 +9,9 @@ export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(true)
   const { connectors, connect } = useConnect()
-  const { status } = useAccount()
+  const { status, addresses } = useAccount()
   const { disconnect } = useDisconnect()
   const router = useRouter()
-  const pathname = usePathname()
 
   useEffect(() => {
     if (isDarkMode) {
@@ -21,6 +20,10 @@ export function Navbar() {
       document.documentElement.classList.remove('dark')
     }
   }, [isDarkMode])
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 4)}...${address.slice(-4)}`
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md z-50">
@@ -41,35 +44,47 @@ export function Navbar() {
             >
               {isDarkMode ? '🌞' : '🌙'}
             </button>
-            
+
             <div className="relative">
-              {status === 'connected' ? (
-                <div className="flex space-x-3">
-                  {pathname !== '/account' && (
-                    <Link
-                      href="/account"
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-                    >
-                      Account
-                    </Link>
-                  )}
+              {status === 'connected' && addresses?.[0] ? (
+                <>
                   <button
-                    onClick={() => {
-                      disconnect()
-                      router.push('/')
-                    }}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
                   >
-                    Disconnect
+                    <span>{formatAddress(addresses[0])}</span>
+                    <span className="text-xs">▼</span>
                   </button>
-                </div>
+                  
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                      <Link
+                        href="/account"
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-white"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Account
+                      </Link>
+                      <button
+                        onClick={() => {
+                          disconnect()
+                          router.push('/')
+                          setIsDropdownOpen(false)
+                        }}
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 dark:text-red-400"
+                      >
+                        Disconnect
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
                   >
-                    Connect
+                    Connect Wallet
                   </button>
                   
                   {isDropdownOpen && (

@@ -1,11 +1,11 @@
 'use client'
 
-import { useAccount, useBalance } from 'wagmi'
+import { useAccount, useBalance, useChainId } from 'wagmi'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { getCode, isAddress } from 'viem'
-import { zkSyncTestnet } from '@wagmi/chains'
-import { createPublicClient, http } from 'viem'
+import { getPublicClient } from '@wagmi/core'
+import { getConfig } from '../../wagmi'
+import { zksyncSepoliaTestnet } from 'viem/chains'
 
 export default function Account() {
   const account = useAccount()
@@ -13,12 +13,11 @@ export default function Account() {
   const [copied, setCopied] = useState(false)
   const [isSmartContract, setIsSmartContract] = useState<boolean | null>(null)
   const address = account.addresses?.[0]
+  const chainId = useChainId()
 
-  // Create a public client for zkSync testnet
-  const publicClient = createPublicClient({
-    chain: zkSyncTestnet,
-    transport: http()
-  })
+  // Create a public client
+  const publicClient = getPublicClient(getConfig())
+  
 
   useEffect(() => {
     async function checkIsSmartContract() {
@@ -41,7 +40,7 @@ export default function Account() {
 
   const { data: balance } = useBalance({
     address: address as `0x${string}`,
-    chainId: zkSyncTestnet.id,
+    // chainId: zkSyncTestnet.id,
     watch: true
   })
 
@@ -66,11 +65,24 @@ export default function Account() {
   if (!address) return null
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-white dark:bg-gray-900">
       <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Account Details</h2>
         
         <div className="space-y-6 text-gray-600 dark:text-gray-300">
+          {/* Network */}
+          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Network</h3>
+            <div className="flex items-center space-x-2">
+              <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                {chainId === zksyncSepoliaTestnet.id ? 'zkSync Sepolia' : 'Unknown Network'}
+              </span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                Chain ID: {chainId}
+              </span>
+            </div>
+          </div>
+
           {/* Account Type */}
           <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Account Type</h3>

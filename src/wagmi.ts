@@ -1,5 +1,7 @@
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi'
-import { zkSyncTestnet } from '@wagmi/chains'
+// import { zkSyncTestnet, zkSync } from '@wagmi/chains'
+
+import {zksyncSepoliaTestnet} from "viem/chains"
 import { injected } from 'wagmi/connectors'
 import {zksyncSsoConnector, callPolicy} from "zksync-sso/connector"
 
@@ -12,13 +14,13 @@ const ssoConnector = zksyncSsoConnector({
 
 export function getConfig() {
   return createConfig({
-    chains: [zkSyncTestnet],
+    chains: [zksyncSepoliaTestnet],
     connectors: [
       injected(),
       ssoConnector,
     ],
     transports: {
-      [zkSyncTestnet.id]: http(),
+      [zksyncSepoliaTestnet.id]: http(),
     },
   })
 }
