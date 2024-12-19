@@ -6,7 +6,7 @@ export default function Home() {
   const { resolvedTheme } = useTheme()
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-gray-200 dark:from-gray-950 dark:to-gray-850 pt-24 sm:pt-0">
       {/* Hero Section */}
       <div className="text-center space-y-8 px-4 max-w-4xl">
         {/* Logo */}

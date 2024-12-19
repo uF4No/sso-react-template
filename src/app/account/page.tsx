@@ -70,7 +70,7 @@ export default function Account() {
   if (!address) return null
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 bg-white dark:bg-gray-900">
+    <div className="min-h-screen p-4 sm:p-8 md:pt-32 pt-24 bg-white dark:bg-gray-900">
       {/* Title */}
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
         Account Details
